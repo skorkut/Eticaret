@@ -1,0 +1,93 @@
+﻿@model Eticaret.ViewModels.ShoppingCartViewModel
+@{
+    ViewBag.Title = "Shopping Cart";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" type="text/javascript"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        // Document.ready -> link up remove event handler
+        $(".RemoveLink").click(function () {
+            // Get the id from the link
+            var recordToDelete = $(this).attr("data_id");
+            //alert(recordToDelete);
+            if (recordToDelete != '') {
+                // Perform the ajax post
+                $.post("/ShoppingCart/RemoveFromCart", { "id": recordToDelete },
+                    function (data) {
+                        // Successful requests get here
+                        // Update the page elements
+                        if (data.ItemCount == 0) {
+                            $('#row-' + data.DeleteId).fadeOut('slow');
+                        } else {
+                            $('#item-count-' + data.DeleteId).text(data.ItemCount);
+                        }
+                        $('#cart-total').text(data.CartTotal);
+                        $('#update-message').text(data.Message);
+                        $('#cart-status').text('Cart (' + data.CartCount + ')');
+                        location.reload();
+                    });        
+            }
+        });
+    });
+</script>
+<h3>
+    <em>Review</em> your cart:
+</h3>
+<p class="button">
+    @Html.ActionLink("Checkout >>", "AddressAndPayment", "Checkout","",new {@class="text-white bg-dark"})
+</p>
+<div id="update-message">
+</div>
+<table class="table">
+    <tr>
+        <th>
+            Albüm Adı
+        </th>
+        <th>
+            Fiyatı
+        </th>
+        <th>
+            Adet
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.CartItems)
+    {
+        <tr id="row-@item.RecordId">
+            <td>
+                @Html.ActionLink(item.Album.Title, "Details", "Store", new { id = item.AlbumId }, 
+                new { @class="text-white bg-dark"})
+                @*<a href="~/Store/Details" style="color:black;">@item.Album.Title</a>*@
+            </td>
+            <td>
+                @item.Album.Price
+            </td>
+            <td id="item-count-@item.RecordId">
+                @item.Count
+            </td>
+            <td>
+             @*   @Html.ActionLink("Remove from cart",null, new { data_id=item.RecordId },new { @class="RemoveLink text-white bg-dark"})*@
+
+
+             @*@Html.ActionLink("Edit", "Edit", "Items", new { @class = "edit-item-link", data_id=item.Id,  id = "edit-item-" + item.Id })*@
+
+                <a href="#" class="RemoveLink text-white bg-dark" data_id="@item.RecordId">Remove from cart</a>
+            </td>
+        </tr>
+    }
+    <tr>
+        <td>
+            Total
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td id="cart-total">
+            @Model.CartTotal
+        </td>
+    </tr>
+</table>

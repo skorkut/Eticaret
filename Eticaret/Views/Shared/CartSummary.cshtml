@@ -1,0 +1,19 @@
+﻿
+@* ﻿@Html.ActionLink("Sepet(" + ViewData["CartCount"] + ")", "Index", "ShoppingCart",  new { id = "cart-status" }) *@
+
+    <a style="    width: 72px; margin-top:-5px;
+   height: 35px;
+   display: block;
+   margin-left: 12px;
+   padding: 15px 24px 14px 54px;
+   background-color: #000;
+   font-size: 15px;
+   color: #fff;
+   position: relative;
+   line-height: 1.2;
+   float: left;
+   font-weight: 700;" href="~/ShoppingCart/Index">
+        <i class="fa fa-shopping-cart" aria-hidden="true"><sup>@ViewData["CartCount"]</sup></i>
+
+    </a>
+
