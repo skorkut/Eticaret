@@ -28,7 +28,7 @@
                         $('#update-message').text(data.Message);
                         $('#cart-status').text('Cart (' + data.CartCount + ')');
                         location.reload();
-                    });        
+                    });
             }
         });
     });
@@ -54,30 +54,37 @@
         </th>
         <th></th>
     </tr>
-    @foreach (var item in Model.CartItems)
+    @if (Model?.CartItems?.Count > 0)
     {
-        <tr id="row-@item.RecordId">
-            <td>
-                @Html.ActionLink(item.Album.Title, "Details", "Store", new { id = item.AlbumId }, 
-                new { @class="text-white bg-dark"})
-                @*<a href="~/Store/Details" style="color:black;">@item.Album.Title</a>*@
-            </td>
-            <td>
-                @item.Album.Price
-            </td>
-            <td id="item-count-@item.RecordId">
-                @item.Count
-            </td>
-            <td>
-             @*   @Html.ActionLink("Remove from cart",null, new { data_id=item.RecordId },new { @class="RemoveLink text-white bg-dark"})*@
+        @foreach (var item in Model.CartItems)
+        {
+            <tr id="row-@item.RecordId">
+                <td>
+                    @Html.ActionLink(item.Album.Title, "Details", "Store", new { id = item.AlbumId },
+            new { @class="text-white bg-dark"})
+                    @*<a href="~/Store/Details" style="color:black;">@item.Album.Title</a>*@
+                </td>
+                <td>
+                    @item.Album.Price
+                </td>
+                <td id="item-count-@item.RecordId">
+                    @item.Count
+                </td>
+                <td>
+                    @*   @Html.ActionLink("Remove from cart",null, new { data_id=item.RecordId },new { @class="RemoveLink text-white bg-dark"})*@
 
 
-             @*@Html.ActionLink("Edit", "Edit", "Items", new { @class = "edit-item-link", data_id=item.Id,  id = "edit-item-" + item.Id })*@
+                    @*@Html.ActionLink("Edit", "Edit", "Items", new { @class = "edit-item-link", data_id=item.Id,  id = "edit-item-" + item.Id })*@
 
-                <a href="#" class="RemoveLink text-white bg-dark" data_id="@item.RecordId">Remove from cart</a>
-            </td>
-        </tr>
+                    <a href="#" class="RemoveLink text-white bg-dark" data_id="@item.RecordId">Remove from cart</a>
+
+
+                    <a asp-action="SepetiBosalt" asp-controller="ShoppingCart" asp-route-shoppingcartid="@Model.ShoppingCartId">Sepeti Boşalt</a>
+                </td>
+            </tr>
+        }
     }
+
     <tr>
         <td>
             Total

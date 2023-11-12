@@ -1,5 +1,6 @@
 ﻿using Eticaret.Data;
 using Eticaret.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -9,13 +10,22 @@ namespace Eticaret.Controllers
 {
 	public class HomeController : Controller
 	{
+		private readonly SignInManager<IdentityUser> _signInManager;
+
 		private readonly ILogger<HomeController> _logger;
 		private readonly EticaretContext eticaretContext;
 
-		public HomeController(ILogger<HomeController> logger, EticaretContext context)
+		public HomeController(ILogger<HomeController> logger, EticaretContext context, SignInManager<IdentityUser> signInManager)
 		{
 			_logger = logger;
 			eticaretContext = context;
+			_signInManager = signInManager;
+		}
+
+		public IActionResult CikisYap()
+		{
+			_signInManager.SignOutAsync();
+			return RedirectToAction("Index", "Home");
 		}
 
 		public IActionResult Index()
@@ -197,12 +207,23 @@ namespace Eticaret.Controllers
 			return View(albumler);
 		}
 
+        public IActionResult GetGoldSummary()
+        {
+			CollectApiController collectApiController = new CollectApiController();
+            var liste = collectApiController.GetGoldPrice();
+            ViewData["liste"] = liste;
+            return PartialView("GetGoldSummary", ViewData["liste"]);
+        }
+
+
         public IActionResult AlbumlerHepsi()
         {
             List<Album> albumler = eticaretContext.Albums.Include(satir => satir.Genre).Include(satir => satir.Artist).ToList();
             ViewData["CartCount"] = HttpContext.Session.GetString("adet");
             return View(albumler);
         }
+
+       
 
     }
 }

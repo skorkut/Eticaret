@@ -8,7 +8,7 @@ namespace Eticaret.Models
     {
 
         public EticaretContext _context { get; set; } //veri tabanına kayıt yapılacak
-        string ShoppingCartId { get; set; }
+        public string ShoppingCartId { get; set; }
 
         public const string CartSessionKey = "CartId"; //const: sabit
         public ShoppingCart GetCart(HttpContext context)
@@ -16,7 +16,7 @@ namespace Eticaret.Models
             var cart = new ShoppingCart();
             cart._context = _context;
             cart.ShoppingCartId = cart.GetCartId(context); //loginsen mailini, değilsen guidi aldı
-
+            ShoppingCartId = cart.ShoppingCartId;
             return cart;
         }
 
@@ -85,9 +85,11 @@ namespace Eticaret.Models
         }
 
         //Sepeti Boşaltma işlemidir, aynı zamanda veri tabanındaki carts tablosundan da ürünleri siler.
-        public void EmptyCart()
+        public void EmptyCart(string shoppingcartid = "")
         {
-            var cartItems = _context.Carts.Where(cart => cart.CartId == ShoppingCartId);
+            var shoppingCartId = shoppingcartid == "" ? ShoppingCartId : shoppingcartid;  //ternary 
+
+            var cartItems = _context.Carts.Where(cart => cart.CartId == shoppingCartId);
 
             foreach (var cartItem in cartItems)
             {

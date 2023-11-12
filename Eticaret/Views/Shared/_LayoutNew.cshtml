@@ -131,7 +131,7 @@
                             &nbsp;&nbsp; *@
 
                              <partial name="CartSummary" />
-                           
+                            <partial name="GetGoldSummary" />
 
                             @*kullanıcı giriş yapmamış ! ile tanımlandı*@
                             @if (!SignInManager.IsSignedIn(User))
@@ -148,7 +148,7 @@
 
 
 
-                                <a class="h-facebook" asp-area="Identity" asp-page="/Account/Logout" title="Manage"> Çıkış</a>
+                                <a class="h-facebook" asp-action="CikisYap" asp-controller="Home" title="Manage"> Çıkış</a>
 
 
                                 @*  <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
@@ -210,6 +210,8 @@
 
         <div class="container">
             <main role="main" class="pb-3">
+
+               
               
                 @RenderBody()
             </main>

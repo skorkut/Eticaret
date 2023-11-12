@@ -1,0 +1,8 @@
+﻿Öncelikle sepete gittiğimizde shoppingcartid değeri null geldiği için silme işlemini yapamadık
+Bunun için öncelikle shoppingcartviewmodel da bir property oluşturduk
+Sonradasında sepet sayfası yüklenmeden modele shoppingcartid bilgisi gönderildi. (Shoppingcartcontroller 52. satır)
+Sepet sayfamızdan sepeti boşalt işlemi yapılırken modeldeki shoppingcartid bilgisi parametre olarak gönderildi (indexdeki kod)
+SepetiBosalt metoduna shoppingcartid parametrsi eklendi ve emptycart metoduna gönderildi. (23. satır ile 26. satır)
+Emptycart metoduna opsiyonel bir parametre eklendi. İlgili parametrenin gönderilmemesi durumunda dahi çalışması için default boş değer verildi(Shoppingcartcs 88)
+Emptycart da parametre olarak gönderilen shoppingcartid null ise shopping cart cs de tanımlı shoppingcartid değerini alması değil ise parametre ile gönderilen değeri alması sağlandı ve bu değere göre silme işlemi gerçekleştirildi. (Shoppingcartcs 90-91)
+

@@ -1,0 +1,18 @@
+﻿
+<a asp-action="GetGoldSummary" asp-controller="Home">Altın</a>
+<ul id="item">
+    @{
+        var liste = ViewData["liste"] as List<GoldItem>;
+
+        if (liste != null && liste.Any())
+        {
+            foreach (var item in liste)
+            {
+                <li>@item.Name</li>
+                <li>@item.Selling</li>
+                <li>@item.Date</li>
+            }
+        }
+        
+    }
+</ul>
